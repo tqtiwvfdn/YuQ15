@@ -1,0 +1,84 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="YuQ15.Pages.SetHostPathPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    Background="White"
+    shell:SystemTray.IsVisible="True">
+
+    <phone:PhoneApplicationPage.Resources>
+        <Color x:Key="yuQ11Color">#53be53</Color>
+        <SolidColorBrush x:Key="yuQ11Brush" Color="{StaticResource yuQ11Color}" Opacity=".9" />
+        <Style TargetType="Button">
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="Padding" Value="20,4"/>
+            <Setter Property="Foreground" Value="{StaticResource yuQ11Brush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource yuQ11Brush}"/>
+            <Setter Property="FontSize" Value="{StaticResource JumpListStringFontSize}"/>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="classListItemTextBlock">
+            <Setter Property="Foreground" Value="{StaticResource yuQ11Brush}"/>
+            <Setter Property="Margin" Value="0,8,21,8"/>
+            <Setter Property="TextAlignment" Value="Right"/>
+            <Setter Property="Padding" Value="0,10"/>
+            <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeLarge}"/>
+        </Style>
+        <DataTemplate x:Key="hostPathListItemTemplate">
+            <TextBlock Text="{Binding HostPathString}" Style="{StaticResource classListItemTextBlock}" />
+        </DataTemplate>
+    </phone:PhoneApplicationPage.Resources>
+
+    <!--LayoutRoot 是包含所有页面内容的根网格-->
+    <Grid x:Name="LayoutRoot">
+        <Grid.Background>
+            <ImageBrush ImageSource="Assets/bg.jpg" Opacity=".45"/>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePanel 包含应用程序的名称和页标题-->
+        <StackPanel Grid.Row="0" Margin="10">
+            <TextBlock Text="祥琳望晴-羽晴 | YuQ11 - 设置" Foreground="{StaticResource yuQ11Brush}"/>
+            <TextBlock Text="网站地址" Style="{StaticResource PhoneTextTitle1Style}" Foreground="{StaticResource yuQ11Brush}"/>
+        </StackPanel>
+
+        <!--ContentPanel - 在此处放置其他内容-->
+        <StackPanel x:Name="ContentPanel" Grid.Row="1" Margin="10">
+            <TextBlock Text="输入新的网站地址" Style="{StaticResource PhoneTextTitle2Style}" Foreground="{StaticResource yuQ11Brush}"/>
+            <TextBox Name="hostPathTextBox" Text="示例：192.168.1.2/YuQ11" InputScope="Url"  LostFocus="AddTips" 
+                     GotFocus="ClearTips" BorderBrush="{StaticResource yuQ11Brush}" Foreground="Gray" Padding="10,2" Background="White"
+                     KeyUp="EnterToInsertTheNewPath" />
+            <Button Content="确定" Click="InsertTheNewHostPath"/>
+        </StackPanel>
+        <Grid Grid.Row="2" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="选择已输入的网站地址" Style="{StaticResource PhoneTextTitle2Style}" Foreground="{StaticResource yuQ11Brush}"/>
+            <phone:LongListSelector  Grid.Row="1"
+                                     x:Name="hostPathList"
+                                     ItemTemplate="{StaticResource hostPathListItemTemplate}"
+                                     LayoutMode="List"
+                                     IsGroupingEnabled="False"
+                                     Margin="0,10,0,65"
+                                     SelectionChanged="HostPathList_SelectionChanged"/>
+        </Grid>
+    </Grid>
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="False" Mode="Default" BackgroundColor="#53be53" Opacity=".8">
+            <shell:ApplicationBarIconButton IconUri="/Assets/AppBar/delete.png" Text="清理缓存" Click="CleanHostPathCache"/>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+</phone:PhoneApplicationPage>
